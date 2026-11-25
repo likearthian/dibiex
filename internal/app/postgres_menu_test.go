@@ -1,7 +1,7 @@
 package app
 
 import (
-	"dbcraft/assets"
+	"dibiex/assets"
 	"encoding/xml"
 	"image/png"
 	"io"
@@ -10,7 +10,7 @@ import (
 	"strings"
 	"testing"
 
-	"dbcraft/internal/database"
+	"dibiex/internal/database"
 	"github.com/egoist/mygo/ui"
 )
 

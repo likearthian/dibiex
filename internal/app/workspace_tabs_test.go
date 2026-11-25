@@ -3,7 +3,7 @@ package app
 import (
 	"testing"
 
-	"dbcraft/internal/database"
+	"dibiex/internal/database"
 	"github.com/egoist/mygo/ui"
 )
 

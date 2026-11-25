@@ -3,7 +3,7 @@ package app
 import (
 	"strings"
 
-	"dbcraft/internal/database"
+	"dibiex/internal/database"
 )
 
 // Non-unreserved PostgreSQL 18 keywords, conservatively quoted because the same

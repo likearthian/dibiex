@@ -7,7 +7,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"dbcraft/internal/database"
+	"dibiex/internal/database"
 )
 
 const (

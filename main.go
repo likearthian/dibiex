@@ -4,7 +4,7 @@ import (
 	_ "embed"
 	"encoding/json"
 
-	"dbcraft/internal/app"
+	"dibiex/internal/app"
 )
 
 //go:embed mygo.json

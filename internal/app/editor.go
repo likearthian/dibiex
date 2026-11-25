@@ -9,7 +9,7 @@ import (
 	"strings"
 	"unicode"
 
-	"dbcraft/internal/database"
+	"dibiex/internal/database"
 	"github.com/egoist/mygo/ui"
 	"github.com/egoist/mygo/ui/editor"
 	"github.com/jackc/pgx/v5/pgconn"

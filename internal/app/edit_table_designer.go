@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"dbcraft/internal/database"
+	"dibiex/internal/database"
 )
 
 func cloneTableDefinition(d database.PostgreSQLTable) database.PostgreSQLTable {

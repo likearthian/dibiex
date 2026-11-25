@@ -4,7 +4,7 @@ import (
 	"runtime"
 	"time"
 
-	"dbcraft/assets"
+	"dibiex/assets"
 	"github.com/egoist/mygo"
 	"github.com/egoist/mygo/ui"
 )

@@ -5,8 +5,8 @@ import (
 	"log"
 	"time"
 
-	"dbcraft/assets"
-	"dbcraft/internal/database"
+	"dibiex/assets"
+	"dibiex/internal/database"
 	"github.com/egoist/mygo"
 	"github.com/egoist/mygo/ui"
 )

@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"dbcraft/internal/database"
+	"dibiex/internal/database"
 )
 
 type savedConnection struct {

@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"dbcraft/internal/database"
+	"dibiex/internal/database"
 )
 
 func TestQueryTabsKeepIndependentExecutionsAndResults(t *testing.T) {

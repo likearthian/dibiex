@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"dbcraft/internal/database"
+	"dibiex/internal/database"
 )
 
 // Each connection owns its clients, workers, editor tabs, results and catalog UI.

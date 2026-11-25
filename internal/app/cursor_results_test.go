@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"dbcraft/internal/database"
+	"dibiex/internal/database"
 )
 
 func TestPostgreSQLCursorEligibility(t *testing.T) {

@@ -3,7 +3,7 @@ package app
 import (
 	"strings"
 
-	"dbcraft/internal/database"
+	"dibiex/internal/database"
 )
 
 const inferenceDepthLimit = 16

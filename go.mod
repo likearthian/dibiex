@@ -1,4 +1,4 @@
-module dbcraft
+module dibiex
 
 go 1.27.3
 

@@ -4,7 +4,7 @@ import (
 	"regexp"
 	"strings"
 
-	"dbcraft/internal/database"
+	"dibiex/internal/database"
 	"github.com/egoist/mygo/ui"
 )
 

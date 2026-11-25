@@ -13,8 +13,8 @@ import (
 	"testing"
 	"time"
 
-	"dbcraft/internal/database"
-	"dbcraft/internal/resultexport"
+	"dibiex/internal/database"
+	"dibiex/internal/resultexport"
 	"github.com/egoist/mygo/ui"
 )
 

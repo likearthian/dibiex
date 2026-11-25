@@ -9,7 +9,7 @@ import (
 	"unicode"
 	"unicode/utf8"
 
-	"dbcraft/internal/database"
+	"dibiex/internal/database"
 	"github.com/egoist/mygo/ui/editor"
 )
 

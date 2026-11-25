@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"dbcraft/internal/database"
+	"dibiex/internal/database"
 )
 
 func TestSavedBigQueryBrowserConnectionFailsValidation(t *testing.T) {

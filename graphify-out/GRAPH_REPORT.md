@@ -1,7 +1,7 @@
 # Graph Report - dbcraft  (2026-11-25)
 
 ## Corpus Check
-- 159 files · ~895,624 words
+- 159 files · ~891,587 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -52,8 +52,8 @@
 10. `cloneSchemaValue()` - 14 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `TestNativeTableEditorAndBackPreservesDraft()` --calls--> `editablePostgreSQLTable()`  [INFERRED]
-  internal\app\alter_table_test.go → internal\app\alter_table.go
+- `editablePostgreSQLTable()` --calls--> `TestNativeTableEditorAndBackPreservesDraft()`  [INFERRED]
+  internal\app\alter_table.go → internal\app\alter_table_test.go
 - `TestBigQueryProjectNodesRemainIndependent()` --calls--> `paletteOf()`  [INFERRED]
   internal\app\bigquery_projects_test.go → internal\app\style.go
 - `TestExecuteToFileShortcutAndMenu()` --calls--> `Open()`  [INFERRED]

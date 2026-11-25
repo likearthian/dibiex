@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"dbcraft/internal/database"
+	"dibiex/internal/database"
 	"github.com/egoist/mygo"
 	"github.com/egoist/mygo/ui"
 )
