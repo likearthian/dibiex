@@ -1,0 +1,13 @@
+/build/
+/.mygo/
+/dibiex.exe
+/dibiex
+*.test
+/.codex/
+/.opencode/
+
+# Graphify local cache and machine-specific state
+/graphify-out/cache/
+/graphify-out/manifest.json
+/graphify-out/.graphify_root
+/graphify-out/cost.json

@@ -1,0 +1,8 @@
+{
+  "name": "dibiex",
+  "identifier": "dev.dbcraft.app",
+  "version": "0.1.2",
+  "icon": "assets/icons/datacraft-gorex-orange.png",
+  "out": "build",
+  "macos": { "minimumSystemVersion": "13.0" }
+}

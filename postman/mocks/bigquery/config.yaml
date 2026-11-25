@@ -1,0 +1,11 @@
+version: 1
+slug: bigquery
+protocol: http
+name: bigquery
+origin: bigquery.googleapis.com
+port: 4500
+interceptRequests: true
+scenarios:
+  - name: default
+    path: default.js
+

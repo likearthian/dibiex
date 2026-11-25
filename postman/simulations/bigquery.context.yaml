@@ -1,0 +1,79 @@
+purpose:
+  stands_in_for: Google BigQuery REST API, limited to dibiex's query and dataset paths.
+  unblocks: Local SDK verification without Google credentials, live data, or query charges.
+assumptions:
+  - id: full-query-export-pagination
+    status: supported
+    claim: The export caller streams all 2505 rows from three BigQuery result pages against the HTTP test stand-in, without applying the grid's 1000-row limit.
+    reason: The production Go SDK and StreamExportQuery ran against a local httptest server; assertions checked every sequential row and three page requests.
+    verification: On 2026-11-07 TestBigQueryFullExportPagesBillingAndCancellation passed. This exercise used internal/database/export_bigquery_test.go, not the Postman runner or live Google Cloud. The existing postman/mocks/bigquery/default.js fixture does not yet supply dry-run statement-type statistics for this path.
+    source: internal/database/export.go; internal/database/export_bigquery_test.go; postman/mocks/bigquery/default.js
+    updated_at: "2026-11-07"
+  - id: export-read-only-validation-and-billing
+    status: supported
+    claim: Against the HTTP test stand-in, the export caller performs dry-run SELECT validation before real execution and retains maximum bytes billed, default dataset, region and original SQL ordering.
+    reason: SDK request-body assertions check both job submissions; a non-SELECT dry-run response prevents a real job from being submitted.
+    verification: On 2026-11-07 TestBigQueryFullExportPagesBillingAndCancellation passed. A downstream disk error also produced a jobs.cancel request. This establishes caller behavior under the test responses, not real IAM, live dry-run validation availability, final cancellation or billing outcomes.
+    source: internal/database/bigquery.go; internal/database/export.go; internal/database/export_bigquery_test.go
+    updated_at: "2026-11-07"
+  - id: additional-project-browsing
+    status: supported
+    claim: One client browses multiple data projects with project-scoped dataset pagination and cache entries, without querying tables or changing its billing project.
+    reason: The official Go SDK was exercised against an HTTP test fixture; native tree and settings tests cover same-named dataset isolation and saved project lists.
+    verification: On 2026-11-06 TestBigQueryMultipleProjectCatalog passed using a Go httptest server, including two-page datasets, an empty project cached across restart, a scoped refresh, a 403 preserving the last good snapshot, and cancellation. The Postman simulation router and live Google IAM were not exercised.
+    source: internal/database/bigquery_projects_test.go; bigquery_projects_test.go
+    updated_at: "2026-11-06"
+  - id: optional-table-sections
+    status: supported
+    claim: Explicit expansion loads partition and search/vector index JSON from INFORMATION_SCHEMA, row policies over REST, and version-3 table IAM conditions; the results survive cache restart.
+    reason: The production SDK and introspector were exercised against deterministic HTTP fixtures with billing-cap validation. This does not establish live SQL availability or inherited IAM permissions.
+    verification: On 2026-11-05 TestBigQuerySimulation passed against the fixture served directly by Node on 127.0.0.1:4014. Base schema discovery was verified query-free before loading optional sections. No Google credentials or live queries were used.
+    source: internal/database/table_sections.go; internal/database/bigquery_test.go; postman/mocks/bigquery/default.js
+    updated_at: "2026-11-05"
+  - id: rest-schema-introspection
+    status: supported
+    claim: The real SDK reads table metadata over REST, preserving nested/repeated fields, key targets, partition specs and clustering order, and the introspector reloads that metadata from its persistent cache.
+    reason: The fixture supplies documented tables.get payloads; the test checks decoded values, 403/404/deadline propagation, cache restart reuse, and absence of INFORMATION_SCHEMA query jobs.
+    verification: On 2026-11-05 TestBigQuerySimulation passed against the existing fixture served directly by Node on 127.0.0.1:4013. The Postman runner remains unavailable due to its previously recorded Windows dataset-daemon crash; its router was not exercised. No live Google credentials or queries were used.
+    source: internal/database/bigquery_metadata.go; internal/database/introspection.go; internal/database/bigquery_test.go; postman/mocks/bigquery/default.js; https://docs.cloud.google.com/bigquery/docs/reference/rest/v2/tables
+    updated_at: "2026-11-05"
+  - id: inspector-metadata-and-dml
+    status: supported
+    claim: The SDK maps fixed INFORMATION_SCHEMA result fixtures into typed columns, key markers, DDL and a row estimate, propagates a metadata permission error, and reads DML affected-row statistics.
+    reason: Real SDK HTTP requests and result decoding were exercised against the local fixture; this does not establish live catalog SQL validity, IAM, or actual estimates.
+    verification: On 2026-11-05, TestBigQuerySimulation passed against default.js served directly by Node on 127.0.0.1:4013. Postman CLI 1.75.0 could not start its dataset daemon (Windows 0xc0000008), so the simulation router was not exercised on this run. No live Google queries were issued.
+    source: internal/database/bigquery_test.go; internal/database/metadata.go; postman/mocks/bigquery/default.js
+    updated_at: "2026-11-05"
+  - id: sdk-query-path
+    status: supported
+    claim: dibiex's real BigQuery SDK submits standard-SQL jobs with a billing cap and default dataset, reads paginated results, preserves NULL/BYTES/numerics, and bounds displayed rows against this stand-in.
+    reason: The mock models the documented jobs.insert and jobs.getQueryResults paths and rejects omitted SQL mode or billing cap and invalid supplied default datasets. A default dataset is optional.
+    verification: On 2026-11-04, TestBigQuerySimulation passed through Postman CLI 1.75.0 on localhost port 4010. Request events showed job submission, completion polling, and two result pages for the 1002-row fixture. The caller returned 1000 rows and Truncated=true.
+    source: internal/database/bigquery_test.go; postman/mocks/bigquery/default.js; https://docs.cloud.google.com/bigquery/docs/reference/rest/v2/jobs/insert; https://docs.cloud.google.com/bigquery/docs/reference/rest/v2/jobs/getQueryResults
+    updated_at: "2026-11-04"
+  - id: timeout-cancellation
+    status: supported
+    claim: A caller deadline during job polling triggers a jobs.cancel HTTP request to this stand-in.
+    reason: Cancelling local polling alone does not request remote job cancellation.
+    verification: A 150ms test deadline expired during jobComplete=false polling. Postman logged POST jobs/{id}/cancel and the mock's state reported cancelled=true.
+    source: internal/database/bigquery.go; internal/database/bigquery_test.go; postman/mocks/bigquery/default.js
+    updated_at: "2026-11-04"
+  - id: live-service-behavior
+    status: unknown
+    claim: ADC authentication, project IAM, regional routing, and final cancellation/billing outcomes work against the user's Google Cloud environment.
+    reason: No live credentials or Google queries were used. Google cancellation is best effort and the stand-in cannot prove billing outcomes.
+    verification: Not run against Google Cloud. Dataset and result pagination, HTTP 400/403 propagation, execution completion, and cancellation were exercised locally.
+    source: https://docs.cloud.google.com/bigquery/docs/reference/rest/v2/jobs/cancel; https://docs.cloud.google.com/docs/authentication/provide-credentials-adc
+    updated_at: "2026-11-04"
+  - id: project-level-browsing
+    status: supported
+    claim: Project-level BigQuery browsing returns paginated dataset nodes without fetching their tables, and fully qualified query jobs omit defaultDataset when it is unset, against this stand-in.
+    reason: Dataset listing and table loading are separate API operations; table types are retained from the tables.list response to form distinct tree folders.
+    verification: TestBigQuerySimulation passed with an empty default dataset. It listed three unloaded datasets over two pages, recognized an empty dataset, propagated a dataset-specific 403, and submitted a fully qualified query without defaultDataset. Table and view kinds were preserved. TestExplorerHierarchy passed for schema/group collapse, filtered ancestor expansion, and initially collapsed unloaded datasets.
+    source: internal/database/catalog.go; internal/database/bigquery_test.go; view_test.go; postman/mocks/bigquery/default.js; https://docs.cloud.google.com/bigquery/docs/reference/rest/v2/datasets/list
+    updated_at: "2026-11-04"
+fingerprints:
+  - id: initial-bigquery-driver
+    date: "2026-11-04"
+    commit: null
+    cli: "1.75.0"
